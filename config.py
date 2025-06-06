@@ -1,4 +1,3 @@
-# config.py
 # Цвета для состояний портов в формате HEX
 COLORS = {
     'open': '90EE90',       # Зеленый
@@ -10,20 +9,22 @@ COLORS = {
 
 # Настройки по умолчанию
 DEFAULT_OUTPUT_DIR = r"C:\Users\cu-nazarov-na\Desktop\zenmap\files\таблицы"
-OUTPUT_SUFFIX = '_filtered.xlsx'
 SCAN_DIR = r"C:\Users\cu-nazarov-na\Desktop\zenmap\files\сканы"
-NMAP_PATH = r"D:\nmap\nmap.exe"                                                 # Путь к Nmap (измените при необходимости)
+OUTPUT_SUFFIX = '_filtered.xlsx'
 
-# Профили сканирования
+# Путь к Nmap
+NMAP_PATH = r"D:\nmap\nmap.exe"
+
+# Профили сканирования с полными командами
 SCAN_PROFILES = {
-    "ping":                         "Быстрое сканирование активных хостов",
-    "intense":                      "Интенсивное сканирование с определением ОС и служб",
-    "Intense scan plus UDP":        "Интенсивное сканирование + UDP порты",
-    "Intense scan, all TCP ports":  "",
-    "Intense scan, no ping":        "",
-    "Quick scan":                   "",
-    "Quick scan plus":              "",
-    "Quick traceroute":             "",
-    "Regular scan":                 "",
-    "Slow comprehensive scan":      ""
+    "ping":                         [NMAP_PATH, "-sn"],
+    "intense":                      [NMAP_PATH, "-T4", "-A", "-v"],
+    "Intense scan plus UDP":        [NMAP_PATH, "-sS", "-sU", "-T4", "-A", "-v"],
+    "Intense scan, all TCP ports":  [NMAP_PATH, "-p", "1-65535", "-T4", "-A", "-v"],
+    "Intense scan, no ping":        [NMAP_PATH, "-T4", "-A", "-v", "-Pn"],
+    "Quick scan":                   [NMAP_PATH, "-T4", "-F"],
+    "Quick scan plus":              [NMAP_PATH, "-sV", "-T4", "-O", "-F", "--version-light"],
+    "Quick traceroute":             [NMAP_PATH, "-sn", "--traceroute"],
+    "Regular scan":                 [NMAP_PATH],
+    "Slow comprehensive scan":      [NMAP_PATH, "-sS", "-sU", "-T4", "-A", "-v", "-PE", "-PP", "-PS80,443", "-PA3389", "-PU40125", "-PY", "-g", "53", "--script", "default or (discovery and safe)"]
 }
